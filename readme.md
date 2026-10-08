@@ -2,6 +2,23 @@
 
 Real-time American Sign Language (ASL) alphabet recognition from a webcam, built on **MediaPipe hand landmarks** and a lightweight **PyTorch MLP classifier**. Hold a sign steady and the letter is typed into an on-screen text buffer.
 
+## Screenshots
+
+<p align="center">
+  <img src="screenshots/Screenshot%202026-10-08%20at%207.02.17%E2%80%AFPM.png" alt="Screenshot 1" width="600">
+</p>
+<p align="center"><em>Live recognition: hand skeleton and predicted letter</em></p>
+
+<p align="center">
+  <img src="screenshots/Screenshot%202026-10-08%20at%207.02.29%E2%80%AFPM.png" alt="Screenshot 2" width="600">
+</p>
+<p align="center"><em>Prediction with confidence score</em></p>
+
+<p align="center">
+  <img src="screenshots/Screenshot%202026-10-08%20at%207.02.43%E2%80%AFPM.png" alt="Screenshot 3" width="600">
+</p>
+<p align="center"><em>Typed text output</em></p>
+
 ## Overview
 
 Instead of classifying raw pixels with a heavy CNN, this project extracts 21 3D hand landmarks per image with MediaPipe and classifies the normalized landmark geometry. This makes the model:
@@ -32,15 +49,18 @@ Webcam / Image -> MediaPipe HandLandmarker -> 21 x (x, y, z) landmarks
 
 ```
 .
+├── screenshots/            # Demo screenshots used in this README
 ├── main.ipynb              # Training + live inference notebook
-├── requirements.txt        # Python dependencies
-├── hand_landmarker.task    # MediaPipe model (download, see below)
-├── sign_landmark.pt        # Trained model checkpoint (generated)
-├── landmarks_cache.npz     # Cached landmarks (generated)
-├── archive/                # ASL Alphabet dataset (download, see below)
-├── LICENSE
-└── README.md
+├── sign_landmark.pt        # Trained landmark MLP checkpoint (used by the app)
+├── sign_cnn.pt             # CNN model checkpoint
+├── Dataset C.zip           # Zipped dataset archive
+├── requiremnets.txt        # Python dependencies
+├── .gitignore
+├── License.md
+└── readme.md
 ```
+
+Generated locally (not tracked in git): `landmarks_cache.npz`, `hand_landmarker.task`, and the `archive/` dataset folder.
 
 ## Getting Started
 
@@ -51,7 +71,7 @@ Webcam / Image -> MediaPipe HandLandmarker -> 21 x (x, y, z) landmarks
 
 ### Requirements
 
-All Python dependencies are listed in [`requirements.txt`](requirements.txt):
+All Python dependencies are listed in [`requiremnets.txt`](requiremnets.txt):
 
 | Package | Version | Purpose |
 |---------|---------|---------|
@@ -74,10 +94,10 @@ python -m venv venv
 source venv/bin/activate
 
 pip install --upgrade pip
-pip install -r requirements.txt
+pip install -r requiremnets.txt
 ```
 
-> **Note:** For GPU training, install the CUDA build of PyTorch first by following the selector at [pytorch.org](https://pytorch.org/get-started/locally/), then run `pip install -r requirements.txt`.
+> **Note:** For GPU training, install the CUDA build of PyTorch first by following the selector at [pytorch.org](https://pytorch.org/get-started/locally/), then run `pip install -r requiremnets.txt`.
 
 ### Download required assets
 
@@ -93,6 +113,8 @@ pip install -r requirements.txt
    archive/asl_alphabet_train/asl_alphabet_train/<class folders>
    archive/asl_alphabet_test/asl_alphabet_test/
 ```
+
+> A pre-trained `sign_landmark.pt` is included, so you can skip training and go straight to live recognition (only `hand_landmarker.task` is needed).
 
 ## Usage
 
@@ -172,4 +194,4 @@ GitHub: [@rudramdindorkar](https://github.com/rudramdindorkar)
 
 ## License
 
-Distributed under the MIT License. See [`LICENSE`](LICENSE) for details.
+Distributed under the MIT License. See [`License.md`](License.md) for details.
